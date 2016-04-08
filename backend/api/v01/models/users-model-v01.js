@@ -6,6 +6,11 @@
 
 import mongoose from 'mongoose';
 
+const userRef = {
+  type:  mongoose.Schema.Types.ObjectId,
+  ref: 'User'
+};
+module.exports = userRef;
 
 const userSchema = new mongoose.Schema({
   created   : { type: Date },

@@ -1,7 +1,7 @@
 'use strict';
 
 import mongoose, { Schema} from 'mongoose';
-import USER from './users-model';
+import { userRef } from './users-model';
 
 
 const courseSchema = new Schema({
@@ -17,12 +17,12 @@ const courseSchema = new Schema({
     }],
     default: ['deactivated']
   },
-  students  : [USER],
+  students  : [userRef],
   updated   : {
     type: Date,
     default: Date.now
   },
-  updatedBy: USER
+  updatedBy: userRef
 });
 
 
