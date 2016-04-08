@@ -18,74 +18,66 @@ const userClened = (user) => {
 };
 
 
-function findAllUsers (req, res) {
-  // check header or url parameters or post parameters for token
-  User.find({}, (err, user) => {
-    if (err) {
-      return res.status(400).json({
-        message: 'Error retriving user'
-      });
-    }
-
-    if (user != null) {
-      const userList = user.map(user => userClened(user));
-
-      return res.json({
-        success: true,
-        message: 'Users found',
-        result: userList
-      });
-
-    } else {
-      return res.status(404).json({
-        sucess: false,
-        message: 'No user were found'
-      });
-    }
-  });
-}
-
-function findOneUser (req, res) {
-  const userId = req.query.user;
-
-  User.findById(userId, (err, user) => {
-    if (err) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error retriving user'
-      });
-    }
-
-    if (user != null) {
-      return res.json({
-        success: true,
-        message: 'User found',
-        result: userClened(user)
-      });
-
-    } else {
-      return res.status(404).json({
-        success: false,
-        message: 'User cannot be found'
-      });
-    }
-  });
-}
-
 export default {
+  findAll (req, res) {
+    // check header or url parameters or post parameters for token
+    User.find({}, (err, user) => {
+      if (err) {
+        return res.status(400).json({
+          message: 'Error retriving user'
+        });
+      }
+
+      if (user != null) {
+        const userList = user.map(user => userClened(user));
+
+        return res.json({
+          success: true,
+          message: 'Users found',
+          result: userList
+        });
+
+      } else {
+        return res.status(404).json({
+          sucess: false,
+          message: 'No user were found'
+        });
+      }
+    });
+  },
+
   find (req, res) {
-    if (!req.query.user) {
-      findAllUsers(req, res);
-    } else {
-      findOneUser(req, res);
-    }
+    const userId = req.params.user;
+
+    User.findById(userId, (err, user) => {
+      if (err) {
+        return res.status(400).json({
+          success: false,
+          message: 'Error retriving user'
+        });
+      }
+
+      if (user != null) {
+        return res.json({
+          success: true,
+          message: 'User found',
+          result: userClened(user)
+        });
+
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: 'User cannot be found'
+        });
+      }
+    });
   },
 
   update (req, res) {
     const data = req.body;
-    const id = req.body.id;
+    const _id = req.params.user;
 
-    User.update(id, data, (err, result) => {
+    User.update({ _id }, data, (err, result) => {
       if (err) {
         return res.status(400).json({
           success: false,
@@ -101,7 +93,7 @@ export default {
       } else {
         return res.status(404).json({
           success: false,
-          message: 'User was not updatied'
+          message: 'User was not updated'
         });
       }
     });

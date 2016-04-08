@@ -42,9 +42,12 @@ export default function routesV01 (app) {
 
   // Users routes
   app.route('/api/v01/users/')
-   .get(user.find)
-   .put(user.update)
-   .delete(user.remove);
+  .get(user.findAll);
+
+  app.route('/api/v01/users/:user')
+    .get(user.find)
+    .put(user.update)
+    .delete(user.remove);
 
 
   // Course routes
