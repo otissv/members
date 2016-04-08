@@ -1,7 +1,7 @@
 'use strict';
 
 import mongoose, { Schema } from 'mongoose';
-import { userRef } from './users-model';
+import { userRef } from './user-model-v01';
 
 
 const Address = new Schema({
@@ -12,14 +12,16 @@ const Address = new Schema({
   postCode: String
 });
 
+
 const eventSchema = new Schema({
-  address: [Address],
-  attended: [userRef],
+  address: [ Address ],
+  attended: [ userRef() ],
   created   : Date,
-  createdBy   : userRef,
+  createdBy   : userRef(),
   duration: Number,
-  enrolled: [userRef],
-  name: {
+  enrolled: [ userRef() ],
+
+  title: {
     type: String,
     required: ' Please enter a class name.'
   },
@@ -31,15 +33,15 @@ const eventSchema = new Schema({
   status: {
     type: [{
       type: String,
-      enum: ['not started', 'stared', 'ended']
+      enum: [ 'not started', 'stared', 'ended' ]
     }],
-    default: ['not started']
+    default: [ 'not started' ]
   },
   updated : {
     type: Date,
     default: Date.now
   },
-  updatedBy: userRef
+  updatedBy: userRef()
 });
 
 

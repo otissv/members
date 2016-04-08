@@ -1,28 +1,28 @@
 'use strict';
 
 import mongoose, { Schema} from 'mongoose';
-import { userRef } from './users-model';
+import { userRef } from './user-model-v01';
 
 
 const courseSchema = new Schema({
   created   : Date,
-  name: {
+  title: {
     type: String,
-    required: ' Please enter a group name.'
+    required: ' Please enter a course title.'
   },
   status: {
     type: [{
       type: String,
-      enum: ['deactivated', 'active']
+      enum: [ 'deactivated', 'active' ]
     }],
-    default: ['deactivated']
+    default: [ 'deactivated' ]
   },
-  students  : [userRef],
+  students  : [ userRef() ],
   updated   : {
     type: Date,
     default: Date.now
   },
-  updatedBy: userRef
+  updatedBy: userRef()
 });
 
 

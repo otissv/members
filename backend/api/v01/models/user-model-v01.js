@@ -6,11 +6,13 @@
 
 import mongoose from 'mongoose';
 
-const userRef = {
-  type:  mongoose.Schema.Types.ObjectId,
-  ref: 'User'
-};
-module.exports = userRef;
+
+export function userRef () {
+  return {
+    type:  mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  };
+}
 
 const userSchema = new mongoose.Schema({
   created   : { type: Date },

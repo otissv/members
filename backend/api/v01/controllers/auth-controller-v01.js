@@ -7,7 +7,7 @@
 
 import jwt from 'jsonwebtoken';
 import secret from '../../../../secret';
-import User from '../models/users-model-v01';
+import User from '../models/user-model-v01';
 import {
   generateHash,
   isValidateHash
@@ -111,7 +111,7 @@ export default {
       if (err) {
         return res.json({
           success: false,
-          message: user
+          message: err
         });
       }
 
@@ -144,7 +144,7 @@ export default {
 
           return res.json({
             success: true,
-            meassage: 'Saved user',
+            meassage: 'User saved',
             result: {
               username: newUser.username,
               _id     : newUser._id,
