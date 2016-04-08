@@ -1,7 +1,7 @@
 {
-  "name": "express-rest-api-starter",
+  "name": "members",
   "version": "1.0.0",
-  "description": "Express Rest API Starter with MongoDB, Redis and JSON Web Token",
+  "description": "Events system",
   "scripts": {
     "start": "nodemon --exec npm run babel-node -- ./backend/server.js localhost 3000",
     "babel-node": "babel-node",
