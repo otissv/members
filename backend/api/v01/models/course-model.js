@@ -1,10 +1,10 @@
 'use strict';
 
-import mongoose from 'mongoose';
+import mongoose, { Schema} from 'mongoose';
 import USER from './users-model';
 
 
-const courseSchema = new mongoose.Schema({
+const courseSchema = new Schema({
   created   : Date,
   name: {
     type: String,

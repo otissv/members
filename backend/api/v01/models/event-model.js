@@ -1,10 +1,10 @@
 'use strict';
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import USER from './users-model';
 
 
-const Address =  new mongoose.Schema({
+const Address = new Schema({
   address1: String,
   address2: String,
   city    : String,
@@ -12,9 +12,9 @@ const Address =  new mongoose.Schema({
   postCode: String
 });
 
-const eventSchema = new mongoose.Schema({
+const eventSchema = new Schema({
   address: [Address],
-  attended [USER],
+  attended: [ USER ],
   created   : Date,
   createdBy   : USER,
   duration: Number,
