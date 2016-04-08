@@ -16,60 +16,6 @@ const courseClened = (course) => {
   });
 };
 
-function findAllCourses (req, res) {
-  // check header or url parameters or post parameters for token
-  Course.find({}, (err, course) => {
-    if (err) {
-      return res.status(400).json({
-        message: 'Error retriving course'
-      });
-    }
-
-    if (course != null) {
-      const courseList = course.map(course => courseClened(course));
-
-      return res.json({
-        success: true,
-        message: 'Courses found',
-        result: courseList
-      });
-
-    } else {
-      return res.status(404).json({
-        sucess: false,
-        message: 'No course were found'
-      });
-    }
-  });
-}
-
-function findOneCourse (req, res) {
-  const courseId = req.query.course;
-  
-  Course.findById(courseId, (err, course) => {
-    if (err) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error retriving course'
-      });
-    }
-
-    if (course != null) {
-      return res.json({
-        success: true,
-        message: 'Course found',
-        result: courseClened(course)
-      });
-
-    } else {
-      return res.status(404).json({
-        success: false,
-        message: 'Course cannot be found'
-      });
-    }
-  });
-}
-
 
 export default {
   create (req, res) {
@@ -119,18 +65,65 @@ export default {
   },
 
 
+  findAll (req, res) {
+    // check header or url parameters or post parameters for token
+    Course.find({}, (err, course) => {
+      if (err) {
+        return res.status(400).json({
+          message: 'Error retriving course'
+        });
+      }
+
+      if (course != null) {
+        const courseList = course.map(course => courseClened(course));
+
+        return res.json({
+          success: true,
+          message: 'Courses found',
+          result: courseList
+        });
+
+      } else {
+        return res.status(404).json({
+          sucess: false,
+          message: 'No course were found'
+        });
+      }
+    });
+  },
+
+
   find (req, res) {
-    if (!req.query.course) {
-      findAllCourses(req, res);
-    } else {
-      findOneCourse(req, res);
-    }
+    const courseId = req.query.course;
+
+    Course.findById(courseId, (err, course) => {
+      if (err) {
+        return res.status(400).json({
+          success: false,
+          message: 'Error retriving course'
+        });
+      }
+
+      if (course != null) {
+        return res.json({
+          success: true,
+          message: 'Course found',
+          result: courseClened(course)
+        });
+
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: 'Course cannot be found'
+        });
+      }
+    });
   },
 
 
   update (req, res) {
     const data = req.body;
-    const id = req.body.id;
+    const id = req.params.id;
 
     Course.update(id, data, (err, result) => {
       if (err) {

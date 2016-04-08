@@ -22,60 +22,6 @@ const eventClened = (event) => {
 };
 
 
-function findAllEvents (req, res) {
-  // check header or url parameters or post parameters for token
-  Event.find({}, (err, event) => {
-    if (err) {
-      return res.status(400).json({
-        message: 'Error retriving event'
-      });
-    }
-
-    if (event != null) {
-      const eventList = event.map(event => eventClened(event));
-
-      return res.json({
-        success: true,
-        message: 'Events found',
-        result: eventList
-      });
-
-    } else {
-      return res.status(404).json({
-        sucess: false,
-        message: 'No event were found'
-      });
-    }
-  });
-}
-
-function findOneEvent (req, res) {
-  const eventId = req.query.event;
-
-  Event.findById(eventId, (err, event) => {
-    if (err) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error retriving event'
-      });
-    }
-
-    if (event != null) {
-      return res.json({
-        success: true,
-        message: 'Event found',
-        result: eventClened(event)
-      });
-
-    } else {
-      return res.status(404).json({
-        success: false,
-        message: 'Event cannot be found'
-      });
-    }
-  });
-}
-
 export default {
   create (req, res) {
     const {
@@ -138,17 +84,63 @@ export default {
   },
 
 
+  findAll (req, res) {
+    // check header or url parameters or post parameters for token
+    Event.find({}, (err, event) => {
+      if (err) {
+        return res.status(400).json({
+          message: 'Error retriving event'
+        });
+      }
+
+      if (event != null) {
+        const eventList = event.map(event => eventClened(event));
+
+        return res.json({
+          success: true,
+          message: 'Events found',
+          result: eventList
+        });
+
+      } else {
+        return res.status(404).json({
+          sucess: false,
+          message: 'No event were found'
+        });
+      }
+    });
+  },
+
   find (req, res) {
-    if (!req.query.event) {
-      findAllEvents(req, res);
-    } else {
-      findOneEvent(req, res);
-    }
+    const eventId = req.query.event;
+
+    Event.findById(eventId, (err, event) => {
+      if (err) {
+        return res.status(400).json({
+          success: false,
+          message: 'Error retriving event'
+        });
+      }
+
+      if (event != null) {
+        return res.json({
+          success: true,
+          message: 'Event found',
+          result: eventClened(event)
+        });
+
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: 'Event cannot be found'
+        });
+      }
+    });
   },
 
   update (req, res) {
     const data = req.body;
-    const id = req.body.id;
+    const id = req.parmas.id;
 
     Event.update(id, data, (err, result) => {
       if (err) {

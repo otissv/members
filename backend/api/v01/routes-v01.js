@@ -53,6 +53,9 @@ export default function routesV01 (app) {
   // Course routes
   app.route('/api/v01/courses/')
     .post(course.create)
+    .get(course.findAll);
+
+  app.route('/api/v01/courses/:course')
     .get(course.find)
     .put(course.update)
     .delete(course.remove);
@@ -60,6 +63,9 @@ export default function routesV01 (app) {
   // Event routes
   app.route('/api/v01/events/')
     .post(event.create)
+    .get(event.findAll);
+
+  app.route('/api/v01/events/:event')
     .get(event.find)
     .put(event.update)
     .delete(event.remove);
