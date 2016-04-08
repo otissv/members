@@ -115,7 +115,6 @@ export default {
         });
       }
 
-
       if (user) {
         // Exit method if user already exists
         return res.status(400).send({
