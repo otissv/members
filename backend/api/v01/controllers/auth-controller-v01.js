@@ -97,7 +97,7 @@ export default {
       // If there is no token return an error
       return res.status(403).send({
         success: false,
-        message: 'No token provided.'
+        message: '403 Forbidden.'
       });
     }
   },
@@ -134,7 +134,9 @@ export default {
           if (err) {
             return res.json({
               success: false,
-              message: err.errmsg
+              message: {
+                username: err.errors.username ? err.errors.username.message : 'OK'
+              }
             });
           }
 

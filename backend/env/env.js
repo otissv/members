@@ -8,24 +8,23 @@ import development from './development-env.js';
 import production from './production-env.js';
 
 
-export default function env (app) {
-  var config;
-
+function getConfig (app) {
   switch (app.get('env')) {
     case 'development':
-      config = development;
-      break;
+      return development;
     case 'production':
-      config = production;
-      break;
+      return production;
     default:
       throw new Error('Unknow exection Enviorment:');
   }
+};
 
-
+export default function env (app) {
+  const config = getConfig(app);
   /*
   *Application variables
   */
   app.set('baseURL', config.baseURL);
+  app.set('shuttingDown', false);
   app.locals = Object.assign({}, app.locals, config);
 };

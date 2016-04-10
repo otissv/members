@@ -4,19 +4,18 @@
 
 'use strict';
 
-
-import expressSession from 'express-session';
+import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
-
-const MongoStore = require('connect-mongo')(expressSession);
-
 
 export default function session (app, mongoose) {
   app.use(cookieParser());
-  app.use(expressSession({
-    secret: app.locals.session,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    saveUninitialized: true,
-    resave: true
-  }));
+  // CSRF
+  app.use(csrf());
+
+  app.use((req, res, next) => {
+    const token = req.csrfToken();
+
+    res.cookie('XSRF-TOKEN', token);
+    next();
+  });
 };
