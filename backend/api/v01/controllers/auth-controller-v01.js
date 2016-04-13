@@ -20,6 +20,15 @@ import {
 } from '../../../helpers/token-helper';
 
 
+function userSuccessResult (user, token) {
+  return {
+    username: user.username,
+    _id     : user._id,
+    roles   : user.roles,
+    token   : token
+  };
+}
+
 export default {
   authenticate (req, res) {
     User.findOne({
@@ -43,8 +52,7 @@ export default {
           return res.json({
             success: true,
             message: 'User has been authenticated!',
-            _id: user._id,
-            token: generateToken(user, secret)
+            result: userSuccessResult(user, token)
           });
         }
       }
@@ -146,12 +154,7 @@ export default {
           return res.json({
             success: true,
             meassage: 'User saved',
-            result: {
-              username: newUser.username,
-              _id     : newUser._id,
-              roles   : newUser.roles,
-              token   : token
-            }
+            result: userSuccessResult(user, token)
           });
         });
       }
