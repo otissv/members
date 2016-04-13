@@ -31,6 +31,7 @@ function userSuccessResult (user, token) {
 
 export default {
   authenticate (req, res) {
+    console.log('otis');
     User.findOne({
       username: req.body.username
     }, function (err, user) {
@@ -162,7 +163,7 @@ export default {
 
   unauthenticate (req, res) {
     // Check header or url parameters or post parameters for _id
-    const _id = req.body._id || req.query._id || req.headers['x-access-id'];
+    const _id = req.params._id;
 
     function cb (err, reply) {
       if (err) {

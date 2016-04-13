@@ -13,7 +13,7 @@ const TOKEN = 'token';
 const COLLECTION = 'users';
 
 function userTokenKey (_id) {
-  return `{COLLECTION}:${_id.toString()}`;
+  return `${COLLECTION}:${_id.toString()}`;
 }
 
 export function generateToken (user) {

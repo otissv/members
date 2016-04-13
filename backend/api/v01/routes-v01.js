@@ -19,7 +19,7 @@ export default function routesV01 (app) {
   * Authentication routes
   */
   // unregister token
-  app.route('/api/v01/unauthenticate')
+  app.route('/api/v01/unauthenticate/:_id')
     .post(auth.unauthenticate);
 
   // register user
