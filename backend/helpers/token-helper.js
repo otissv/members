@@ -10,9 +10,10 @@ import { instance } from '../databases/redis';
 
 const redis = instance;
 const TOKEN = 'token';
+const COLLECTION = 'users';
 
 function userTokenKey (_id) {
-  return `users:${_id.toString()}`;
+  return `{COLLECTION}:${_id.toString()}`;
 }
 
 export function generateToken (user) {
@@ -66,8 +67,8 @@ export function deleteToken (_id, cb) {
   if (!_id) {
     cb && cb(true);
   } else {
-
-    redis().del('tokens', `user:${_id.toString()}`, (err, reply) => {
+    console.log();
+    redis().del('tokens', `${COLLECTION}:${_id.toString()}`, (err, reply) => {
       if (err) {
         cb && cb(err);
       }

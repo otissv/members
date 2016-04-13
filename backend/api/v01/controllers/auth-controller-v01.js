@@ -161,7 +161,7 @@ export default {
   unauthenticate (req, res) {
     // Check header or url parameters or post parameters for _id
     const _id = req.body._id || req.query._id || req.headers['x-access-id'];
-
+    console.log(_id);
     function cb (err, reply) {
       if (err) {
         res.status(500).json({

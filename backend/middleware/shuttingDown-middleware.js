@@ -1,5 +1,5 @@
 /*
-* Application shotdown
+* Application is shutting down
 */
 
 'use strict';
