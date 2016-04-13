@@ -43,8 +43,7 @@ export default {
           return res.json({
             success: true,
             message: 'User has been authenticated!',
-            _id: user._id,
-            token: token
+            result: userSuccessResult(user, token)
           });
 
         } else {
@@ -154,7 +153,7 @@ export default {
           return res.json({
             success: true,
             meassage: 'User saved',
-            result: userSuccessResult(user, token)
+            result: userSuccessResult(newUser, token)
           });
         });
       }
@@ -164,7 +163,7 @@ export default {
   unauthenticate (req, res) {
     // Check header or url parameters or post parameters for _id
     const _id = req.body._id || req.query._id || req.headers['x-access-id'];
-    console.log(_id);
+
     function cb (err, reply) {
       if (err) {
         res.status(500).json({
