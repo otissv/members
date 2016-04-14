@@ -52,7 +52,7 @@ export default {
           return res.json({
             success: true,
             message: 'User has been authenticated!',
-            result: userSuccessResult(user, token)
+            result: userSuccessResult(user, generateToken(user, secret))
           });
         }
       }
