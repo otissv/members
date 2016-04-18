@@ -9,10 +9,14 @@ import { deleteToken } from '../../../helpers/token-helper';
 
 const userClened = (user) => {
   return Object.assign({}, {
-    email: user.email,
     _id: user.id,
+    address: user.address,
+    email: user.email,
+    firstName : user.firstName,
+    lastName  : user.lastName,
     lastLogin: user.lastLogin,
     roles: user.roles,
+    telephone: user.telephone,
     username: user.username
   });
 };

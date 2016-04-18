@@ -4,7 +4,7 @@
 */
 'use strict';
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 
 export function userRef () {
@@ -14,7 +14,17 @@ export function userRef () {
   };
 }
 
-const userSchema = new mongoose.Schema({
+const Address = new Schema({
+  address1: String,
+  address2: String,
+  city    : String,
+  state   : String,
+  postCode: String
+});
+
+
+const userSchema = new Schema({
+  address: [ Address ],
   created   : { type: Date },
   createdBy : String,
   email: {
@@ -35,7 +45,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       enum: ['user', 'admin']
     }],
-    default: ['user']
+    default: 'user'
   },
   telephone: Number,
   updated : { type: Date, default: Date.now },
