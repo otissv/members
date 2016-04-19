@@ -14,7 +14,7 @@ const Address = new Schema({
 
 
 const eventSchema = new Schema({
-  address: [ Address ],
+  address: Address,
   attended: [ userRef() ],
   created   : Date,
   createdBy   : userRef(),

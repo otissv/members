@@ -24,7 +24,7 @@ const Address = new Schema({
 
 
 const userSchema = new Schema({
-  address: [ Address ],
+  address: Address,
   created   : { type: Date },
   createdBy : String,
   email: {
