@@ -112,7 +112,7 @@ export default {
   },
 
   find (req, res) {
-    const eventId = req.query.event;
+    const eventId = req.params.event;
 
     Event.findById(eventId, (err, event) => {
       if (err) {
@@ -140,13 +140,13 @@ export default {
 
   update (req, res) {
     const data = req.body;
-    const id = req.parmas.id;
+    const _id = req.params.event;
 
-    Event.update(id, data, (err, result) => {
+    Event.update({ _id: _id }, data, (err, result) => {
       if (err) {
         return res.status(400).json({
           success: false,
-          message: 'Error updating event'
+          message: err
         });
       }
 
@@ -166,9 +166,10 @@ export default {
 
 
   remove (req, res) {
-    var id = req.params.event;
+    var event = req.params.event;
 
-    Event.remove(id, (err, result) => {
+    console.log(req.params.event);
+    Event.remove({ _id: event }, (err, result) => {
       if (err) {
         return res.status(400).json({
           success: false,
@@ -177,14 +178,14 @@ export default {
       }
 
       if (result.result.n === 1) {
-        return res.status(404).json({
-          success: false,
-          message: 'Event was not removed'
-        });
-      } else {
         return res.json({
           success: true,
           message: 'Event removed'
+        });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: 'Event was not removed'
         });
       }
 

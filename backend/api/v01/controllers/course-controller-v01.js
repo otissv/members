@@ -19,7 +19,11 @@ const courseClened = (course) => {
 
 export default {
   create (req, res) {
-    const { title, status, students } = req.body;
+    const {
+      title,
+      status,
+      students
+    } = req.body;
 
     // check to see if course already exists
     Course.findOne({ title }, (err, course) => {
@@ -92,9 +96,8 @@ export default {
     });
   },
 
-
   find (req, res) {
-    const courseId = req.query.course;
+    const courseId = req.params.course;
 
     Course.findById(courseId, (err, course) => {
       if (err) {
@@ -120,16 +123,15 @@ export default {
     });
   },
 
-
   update (req, res) {
     const data = req.body;
-    const id = req.params.id;
+    const _id = req.params.course;
 
-    Course.update(id, data, (err, result) => {
+    Course.update({ _id: _id }, data, (err, result) => {
       if (err) {
         return res.status(400).json({
           success: false,
-          message: 'Error updating course'
+          message: err
         });
       }
 
@@ -149,9 +151,10 @@ export default {
 
 
   remove (req, res) {
-    var id = req.params.course;
+    var course = req.params.course;
 
-    Course.remove(id, (err, result) => {
+    console.log(req.params.course);
+    Course.remove({ _id: course }, (err, result) => {
       if (err) {
         return res.status(400).json({
           success: false,
@@ -160,14 +163,14 @@ export default {
       }
 
       if (result.result.n === 1) {
-        return res.status(404).json({
-          success: false,
-          message: 'Course was not removed'
-        });
-      } else {
         return res.json({
           success: true,
           message: 'Course removed'
+        });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: 'Course was not removed'
         });
       }
 
