@@ -112,7 +112,7 @@ export default {
   },
 
   find (req, res) {
-    const eventId = req.query.event;
+    const eventId = req.params.event;
 
     Event.findById(eventId, (err, event) => {
       if (err) {
@@ -137,6 +137,7 @@ export default {
       }
     });
   },
+
 
   update (req, res) {
     const data = req.body;
