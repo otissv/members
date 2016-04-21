@@ -138,6 +138,7 @@ export default {
     });
   },
 
+
   update (req, res) {
     const data = req.body;
     const _id = req.params.event;
