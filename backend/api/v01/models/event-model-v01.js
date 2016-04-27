@@ -6,22 +6,29 @@ import address from './address-model-v01.js';
 
 
 const eventSchema = new Schema({
+  allDay     : Boolean,
   address    : address,
   attended   : [ userRef() ],
   created    : Date,
   createdBy  : userRef(),
   description: String,
   duration   : Number,
+  end: {
+    type    : Date,
+    default : Date.now,
+    required: 'Please enter an end date.'
+  },
   enrolled   : [ userRef() ],
   room       : String,
   start: {
     type    : Date,
-    default : Date.now
+    default : Date.now,
+    required: 'Please enter a start date.'
   },
   status: {
     type: [{
       type: String,
-      enum: [ 'not started', 'stared', 'ended' ]
+      enum: [ 'not started', 'started', 'ended' ]
     }],
     default: [ 'not started' ]
   },
