@@ -2,19 +2,11 @@
 
 import mongoose, { Schema } from 'mongoose';
 import { userRef } from './user-model-v01';
-
-
-const Address = new Schema({
-  address1: String,
-  address2: String,
-  city    : String,
-  state   : String,
-  postCode: String
-});
+import address from './address-model-v01.js';
 
 
 const eventSchema = new Schema({
-  address: Address,
+  address: address,
   attended: [ userRef() ],
   created   : Date,
   createdBy   : userRef(),

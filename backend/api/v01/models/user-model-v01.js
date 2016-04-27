@@ -5,6 +5,7 @@
 'use strict';
 
 import mongoose, { Schema } from 'mongoose';
+import address from './address-model-v01.js';
 
 
 export function userRef () {
@@ -14,17 +15,8 @@ export function userRef () {
   };
 }
 
-const Address = new Schema({
-  address1: String,
-  address2: String,
-  city    : String,
-  state   : String,
-  postCode: String
-});
-
-
 const userSchema = new Schema({
-  address: Address,
+  address: address,
   created   : { type: Date },
   createdBy : String,
   email: {
