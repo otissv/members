@@ -6,21 +6,17 @@ import address from './address-model-v01.js';
 
 
 const eventSchema = new Schema({
-  address: address,
-  attended: [ userRef() ],
-  created   : Date,
-  createdBy   : userRef(),
-  duration: Number,
-  enrolled: [ userRef() ],
-
-  title: {
-    type: String,
-    required: ' Please enter a class name.'
-  },
-  room: String,
+  address    : address,
+  attended   : [ userRef() ],
+  created    : Date,
+  createdBy  : userRef(),
+  description: String,
+  duration   : Number,
+  enrolled   : [ userRef() ],
+  room       : String,
   start: {
-    type: Date,
-    default: Date.now
+    type    : Date,
+    default : Date.now
   },
   status: {
     type: [{
@@ -29,8 +25,12 @@ const eventSchema = new Schema({
     }],
     default: [ 'not started' ]
   },
-  updated : {
-    type: Date,
+  title : {
+    type    : String,
+    required: ' Please enter a class name.'
+  },
+  updated: {
+    type   : Date,
     default: Date.now
   },
   updatedBy: userRef()
