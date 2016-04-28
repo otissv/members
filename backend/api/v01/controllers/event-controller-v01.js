@@ -9,15 +9,18 @@ import Event from '../models/event-model-v01';
 
 const eventClened = (event) => {
   return Object.assign({}, {
-    address: event.address,
-    attended: event.attended,
-    duration: event.duration,
-    enrolled: event.enrolled,
-    title: event.title,
-    room: event.room,
-    start: event.start,
-    status: event.status,
-    _id: event.id
+    allDay     : event.allDay,
+    address    : event.address,
+    attended   : event.attended,
+    description: event.description,
+    duration   : event.duration,
+    end        : event.end,
+    enrolled   : event.enrolled,
+    room       : event.room,
+    start      : event.start,
+    status     : event.status,
+    title      : event.title,
+    _id        : event.id
   });
 };
 
@@ -25,14 +28,17 @@ const eventClened = (event) => {
 export default {
   create (req, res) {
     const {
+      allDay,
       address,
       attended,
+      description,
       duration,
+      end,
       enrolled,
-      title,
       room,
       start,
-      status
+      status,
+      title
     } = req.body;
 
     // check to see if event already exists
@@ -54,14 +60,17 @@ export default {
       } else {
         // create a new event
         const newEvent = new Event({
+          allDay,
           address,
           attended,
+          description,
           duration,
+          end,
           enrolled,
-          title,
           room,
           start,
-          status
+          status,
+          title
         });
 
         // save new event

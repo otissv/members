@@ -15,7 +15,6 @@ const eventSchema = new Schema({
   duration   : Number,
   end: {
     type    : Date,
-    default : Date.now,
     required: 'Please enter an end date.'
   },
   enrolled   : [ userRef() ],
