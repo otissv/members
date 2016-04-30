@@ -41,54 +41,35 @@ export default {
       title
     } = req.body;
 
-    // check to see if event already exists
-    Event.findOne({ title }, (err, event) => {
+    // create a new event
+    const newEvent = new Event({
+      allDay,
+      address,
+      attended,
+      description,
+      duration,
+      end,
+      enrolled,
+      room,
+      start,
+      status,
+      title
+    });
+
+    // save new event
+    newEvent.save(function (err) {
       if (err) {
         return res.json({
           success: false,
-          message: err
+          message: err.errors.title.message
         });
       }
 
-      if (event) {
-        // Exit method if event already exists
-        return res.status(400).send({
-          success: false,
-          message: 'Event already exists'
-        });
-
-      } else {
-        // create a new event
-        const newEvent = new Event({
-          allDay,
-          address,
-          attended,
-          description,
-          duration,
-          end,
-          enrolled,
-          room,
-          start,
-          status,
-          title
-        });
-
-        // save new event
-        newEvent.save(function (err) {
-          if (err) {
-            return res.json({
-              success: false,
-              message: err.errors.title.message
-            });
-          }
-
-          return res.json({
-            success: true,
-            message: 'Events saved',
-            result: eventClened(newEvent)
-          });
-        });
-      }
+      return res.json({
+        success: true,
+        message: 'Events saved',
+        result: eventClened(newEvent)
+      });
     });
   },
 
