@@ -9,6 +9,7 @@ const eventSchema = new Schema({
   allDay     : Boolean,
   address    : address,
   attended   : [ userRef() ],
+  category   : [String],
   created    : Date,
   createdBy  : userRef(),
   description: String,
