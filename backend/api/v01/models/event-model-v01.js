@@ -13,28 +13,20 @@ const eventSchema = new Schema({
   created    : Date,
   createdBy  : userRef(),
   description: String,
-  duration   : Number,
   end: {
     type    : Date,
     required: 'Please enter an end date.'
   },
-  enrolled   : [ userRef() ],
+  invited   : [ userRef() ],
   room       : String,
   start: {
     type    : Date,
     default : Date.now,
     required: 'Please enter a start date.'
   },
-  status: {
-    type: [{
-      type: String,
-      enum: [ 'not started', 'started', 'ended' ]
-    }],
-    default: [ 'not started' ]
-  },
   title : {
     type    : String,
-    required: ' Please enter a class name.'
+    required: ' Please enter an event title.'
   },
   updated: {
     type   : Date,

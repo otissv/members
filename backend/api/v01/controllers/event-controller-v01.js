@@ -14,12 +14,9 @@ const eventClened = (event) => {
     attended   : event.attended,
     category   : event.category,
     description: event.description,
-    duration   : event.duration,
     end        : event.end,
-    enrolled   : event.enrolled,
-    room       : event.room,
+    invited    : event.invited,
     start      : event.start,
-    status     : event.status,
     title      : event.title,
     _id        : event.id
   });
@@ -34,12 +31,10 @@ export default {
       attended,
       category,
       description,
-      duration,
       end,
-      enrolled,
+      invited,
       room,
       start,
-      status,
       title
     } = req.body;
 
@@ -50,19 +45,17 @@ export default {
       attended,
       category,
       description,
-      duration,
       end,
-      enrolled,
+      invited,
       room,
       start,
-      status,
       title
     });
-
+console.log(req.body);
     // save new event
     newEvent.save(function (err) {
       if (err) {
-        return res.json({
+        return res.status(400).json({
           success: false,
           message: err.errors.title.message
         });
