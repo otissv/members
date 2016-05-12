@@ -15,6 +15,7 @@ export function userRef () {
   };
 }
 
+
 const userSchema = new Schema({
   address: address,
   created   : { type: Date },

@@ -51,7 +51,7 @@ export default {
       start,
       title
     });
-console.log(req.body);
+
     // save new event
     newEvent.save(function (err) {
       if (err) {

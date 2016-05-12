@@ -2,7 +2,7 @@
 
 import auth from './controllers/auth-controller-v01';
 import user from './controllers/user-controller-v01';
-import course from './controllers/course-controller-v01';
+import category from './controllers/category-controller-v01';
 import event from './controllers/event-controller-v01';
 
 
@@ -50,15 +50,18 @@ export default function routesV01 (app) {
     .delete(user.remove);
 
 
-  // Course routes
-  app.route('/api/v01/courses/')
-    .post(course.create)
-    .get(course.findAll);
+  // Categories routes
+  app.route('/api/v01/categories/colors')
+    .get(category.colors)
 
-  app.route('/api/v01/courses/:course')
-    .get(course.find)
-    .put(course.update)
-    .delete(course.remove);
+  app.route('/api/v01/categories/')
+    .post(category.create)
+    .get(category.findAll);
+
+  app.route('/api/v01/categories/:category')
+    .get(category.find)
+    .put(category.update)
+    .delete(category.remove);
 
   // Event routes
   app.route('/api/v01/events/')

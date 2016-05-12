@@ -2,6 +2,7 @@
 
 import mongoose, { Schema } from 'mongoose';
 import { userRef } from './user-model-v01';
+import { categoryRef } from './category-model-v01';
 import address from './address-model-v01.js';
 
 
@@ -9,7 +10,7 @@ const eventSchema = new Schema({
   allDay     : Boolean,
   address    : address,
   attended   : [ userRef() ],
-  category   : [String],
+  category   : categoryRef(),
   created    : Date,
   createdBy  : userRef(),
   description: String,

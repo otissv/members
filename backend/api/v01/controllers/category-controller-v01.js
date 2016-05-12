@@ -4,29 +4,39 @@
 
 'use strict';
 
-import Course from '../models/course-model-v01';
+import Course, { colors } from '../models/category-model-v01';
 
 
-const courseClened = (course) => {
+const categoryClened = (category) => {
   return Object.assign({}, {
-    title: course.title,
-    status: course.status,
-    students: course.students,
-    _id: course.id
+    color: category.color,
+    title: category.title,
+    status: category.status,
+    students: category.students,
+    _id: category.id
   });
 };
 
 
 export default {
+  colors (req, res) {
+    return res.json({
+      success: true,
+      message: 'Category colors',
+      result: colors
+    });
+  },
+
   create (req, res) {
     const {
+      color,
       title,
       status,
       students
     } = req.body;
 
-    // check to see if course already exists
-    Course.findOne({ title }, (err, course) => {
+    // check to see if category already exists
+    Course.findOne({ title }, (err, category) => {
       if (err) {
         return res.json({
           success: false,
@@ -34,22 +44,23 @@ export default {
         });
       }
 
-      if (course) {
-        // Exit method if course already exists
+      if (category) {
+        // Exit method if category already exists
         return res.status(400).send({
           success: false,
           message: 'Course already exists'
         });
 
       } else {
-        // create a new course
+        // create a new category
         const newCourse = new Course({
+          color,
           title,
           status,
           students
         });
 
-        // save new course
+        // save new category
         newCourse.save(function (err) {
           if (err) {
             return res.json({
@@ -60,8 +71,8 @@ export default {
 
           return res.json({
             success: true,
-            message: 'Courses saved',
-            result: courseClened(newCourse)
+            message: 'Categories saved',
+            result: categoryClened(newCourse)
           });
         });
       }
@@ -71,47 +82,47 @@ export default {
 
   findAll (req, res) {
     // check header or url parameters or post parameters for token
-    Course.find({}, (err, course) => {
+    Course.find({}, (err, category) => {
       if (err) {
         return res.status(400).json({
-          message: 'Error retriving course'
+          message: 'Error retriving category'
         });
       }
 
-      if (course != null) {
-        const courseList = course.map(course => courseClened(course));
+      if (category != null) {
+        const categoryList = category.map(category => categoryClened(category));
 
         return res.json({
           success: true,
-          message: 'Courses found',
-          result: courseList
+          message: 'Categories found',
+          result: categoryList
         });
 
       } else {
         return res.status(404).json({
           sucess: false,
-          message: 'No course were found'
+          message: 'No category were found'
         });
       }
     });
   },
 
   find (req, res) {
-    const courseId = req.params.course;
+    const categoryId = req.params.category;
 
-    Course.findById(courseId, (err, course) => {
+    Course.findById(categoryId, (err, category) => {
       if (err) {
         return res.status(400).json({
           success: false,
-          message: 'Error retriving course'
+          message: 'Error retriving category'
         });
       }
 
-      if (course != null) {
+      if (category != null) {
         return res.json({
           success: true,
           message: 'Course found',
-          result: courseClened(course)
+          result: categoryClened(category)
         });
 
       } else {
@@ -125,8 +136,8 @@ export default {
 
   update (req, res) {
     const data = req.body;
-    const _id = req.params.course;
-
+    const _id = req.params.category;
+console.log(data);
     Course.update({ _id: _id }, data, (err, result) => {
       if (err) {
         return res.status(400).json({
@@ -151,14 +162,14 @@ export default {
 
 
   remove (req, res) {
-    var course = req.params.course;
+    var category = req.params.category;
 
-    console.log(req.params.course);
-    Course.remove({ _id: course }, (err, result) => {
+    console.log(req.params.category);
+    Course.remove({ _id: category }, (err, result) => {
       if (err) {
         return res.status(400).json({
           success: false,
-          message: 'Error removing course'
+          message: 'Error removing category'
         });
       }
 

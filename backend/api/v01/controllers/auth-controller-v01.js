@@ -31,7 +31,7 @@ function userSuccessResult (user, token) {
 
 export default {
   authenticate (req, res) {
-    console.log('otis');
+
     User.findOne({
       username: req.body.username
     }, function (err, user) {
