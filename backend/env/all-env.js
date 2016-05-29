@@ -11,6 +11,6 @@ export default {
   title      : 'Express-es6',
   description: 'Express server with MongoDB',
   keywords   : 'MongoDB, Express, Node.js',
-  port       : process.env.PORT || 3000,
+  port       : process.env.PORT || 5000,
   session    : secret
 };
