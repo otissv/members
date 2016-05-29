@@ -20,6 +20,7 @@ const userSchema = new Schema({
   address: address,
   created   : { type: Date },
   createdBy : String,
+  DateOfBirth: { type: Date },
   email: {
     type: String
     // unique:true,
