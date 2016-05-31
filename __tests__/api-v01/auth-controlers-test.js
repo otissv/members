@@ -1,14 +1,41 @@
 import test from 'tape';
-
+import env from '../../backend/env/development-env';
 import fetch from '../helpers/fetch-test-helper';
+import mongo from '../helpers/database-test-helpers';
+import { expressStart } from '../helpers/express-test-helpers';
 
+
+const {
+  baseURL,
+  mongodb
+} = env;
 
 // Base url
-const ROOT_URL = 'http://localhost:3000/';
+const ROOT_URL = baseURL;
+const MONGO_URI = mongodb.uri;
 const API = `${ROOT_URL}api/v01/`;
 
 
 test('auth controller', nested => {
+  const user = {
+    username: 'ania',
+    password: 'xyz'
+  };
+
+  mongo.collection({
+    uri   : MONGO_URI,
+    drop  : ['users'],
+    seed  : {
+      users: 3
+    },
+    insert:[
+      {
+        collection: 'users',
+        data: user
+      }
+    ]
+  });
+
   nested.test('Root route', assert => {
     fetch({
       method: 'get',
@@ -18,7 +45,6 @@ test('auth controller', nested => {
           'Root is forbidden.');
       }
     });
-
     assert.end();
   });
 
@@ -34,10 +60,6 @@ test('auth controller', nested => {
       }
     });
 
-    const user = {
-      username: 'jimmy',
-      password: 'jimbob'
-    };
 
     fetch({
       method: 'post',
@@ -46,11 +68,14 @@ test('auth controller', nested => {
       assert (response) {
         assert.ok(
           response.data.success, true,
-          'Registered user.');
+          'User can be registered.');
       }
     });
 
+    assert.end();
+  });
 
+  nested.test('Authenticate user: ', assert => {
     fetch({
       method: 'post',
       url:   `${API}authenticate`,
@@ -62,7 +87,10 @@ test('auth controller', nested => {
       }
     });
 
+    assert.end();
+  });
 
+  nested.test('unauthenticate user: ', assert => {
     fetch({
       method: 'post',
       url:   `${API}unauthenticate`,
