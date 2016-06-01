@@ -8,6 +8,7 @@ const address = new Schema({
   address2: String,
   city    : String,
   state   : String,
+  country : String,
   postCode: String
 });
 

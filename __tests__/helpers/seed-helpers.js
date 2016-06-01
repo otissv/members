@@ -1,26 +1,18 @@
 /*
-* Seed data
+* Seed helper
 */
 
 'use strict';
 
-import schema from './schema-seed.js';
+import fakeSeed from './../seed/fake-seed.js';
 
 
-/*
-* Seed Data
-*/
-let seed = {
-  create (collection, count) {
-    let documents = [];
+export default function createSeed (collection, count) {
+  let documents = [];
 
-    for (var i = 0; i < count; i++) {
-      documents.push(schema()[collection]);
-    }
-
-    return documents;
+  for (var i = 0; i < count; i++) {
+    documents.push(fakeSeed()[collection]);
   }
+
+  return documents;
 };
-
-
-export default seed;

@@ -3,8 +3,9 @@ import path from 'path';
 
 
 const config = {
-  base: './',
-  folder : './__tests__/**/*-test.js',
+  base    : './',
+  folder  : './__tests__',
+  ext  : '-test.js',
   options : {
     ignore: './node_modules/**'
   }
@@ -14,17 +15,40 @@ const resolveBase = (base, filePath) => {
   return path.resolve(__dirname, `${base}${filePath}`);
 };
 
+function runTest (files) {
+  files.forEach(file => {
+    const tests = resolveBase(config.base, file);
+
+    require(`${tests}`);
+  });
+}
 
 const requireFiles = (config) => {
-  return glob(config.folder, config.options, (err, files) => {
+  const ext = config.ext || '';
+  const pattern = `${config.folder}/**/*${ext}`;
+
+  glob(pattern, config.options, (err, files) => {
     if (err) {
       return err;
     }
 
-    files.forEach(f => {
-      const tests = resolveBase(config.base, f);
-      require(`${tests}`);
+    console.log();
+    glob('./__tests__/pretests.js', (err, pretests) => {
+      if (err) {
+        console.log(err);
+      }
+      if (pretests[0] == null) {
+        runTest(files);
+
+      } else {
+        require(pretests[0]).pretest();
+
+        const duration = require(pretests[0]).DURATION || 99;
+        setTimeout(() => runTest(files), duration + 1);
+      }
     });
+
+
   });
 };
 

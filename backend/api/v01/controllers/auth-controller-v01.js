@@ -64,6 +64,8 @@ export default {
 
         // Check if password is correct
         if (!isValidateHash(req.body.password, user.password)) {
+          console.log('body', req.body.password);
+          console.log('user', user.password);
           return res.json({ success: false, message: 'Authentication failed. Either the username or password was incorrect.' });
 
         } else {
