@@ -9,7 +9,6 @@ import address from './address-model-v01.js';
 const eventSchema = new Schema({
   allDay     : Boolean,
   address    : address,
-  attended   : [ userRef() ],
   category   : categoryRef(),
   created    : Date,
   createdBy  : userRef(),
@@ -18,7 +17,10 @@ const eventSchema = new Schema({
     type    : Date,
     required: 'Please enter an end date.'
   },
-  invited   : [ userRef() ],
+  attendees : [{
+    attendee : userRef(),
+    attended : Boolean
+  }],
   start: {
     type    : Date,
     default : Date.now,
