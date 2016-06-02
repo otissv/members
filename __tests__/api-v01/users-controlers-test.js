@@ -21,6 +21,7 @@ test('Users controller:', assert => {
     }
   });
 
+
   fetch({
     method: 'get',
     url   : `${API_URL}${COLLECTION}/${auth._id}${AUTH}`,
@@ -39,6 +40,7 @@ test('Users controller:', assert => {
     }
   });
 
+
   fetch({
     method: 'put',
     url   : `${API_URL}${COLLECTION}/${userUpdateId}${AUTH}`,
@@ -48,6 +50,7 @@ test('Users controller:', assert => {
         'Updates a user');
     }
   });
+
 
   fetch({
     method: 'delete',
