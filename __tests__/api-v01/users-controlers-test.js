@@ -25,7 +25,16 @@ test('Users controller:', assert => {
     method: 'get',
     url   : `${API_URL}${COLLECTION}/${auth._id}${AUTH}`,
     assert: (response) => {
-      assert.deepEquals(response.data.result.username, 'a',
+      assert.deepEquals(response.data.result,
+        {
+          _id: '54495ad94c934721ede76d90',
+          email: 'a@hotmail.com',
+          firstName: 'a',
+          lastLogin: '2016-02-02T00:29:17.889Z',
+          lastName: 'Zeyer',
+          roles: [ 'user' ],
+          username: 'a' 
+        },
         'Finds one user');
     }
   });
@@ -35,7 +44,7 @@ test('Users controller:', assert => {
     url   : `${API_URL}${COLLECTION}/${userUpdateId}${AUTH}`,
     data: { firstName: 'Spencer' },
     assert: (response) => {
-      assert.deepEquals(response.data.result.username, 'Spencer',
+      assert.ok(response.data.success,
         'Updates a user');
     }
   });
