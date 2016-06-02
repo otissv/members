@@ -4,7 +4,7 @@ import env from '../backend/env/development-env';
 import { users } from './seed/insert-seed';
 
 
-export const DURATION = 100;
+export const DURATION = 600;
 
 export function pretest () {
   const MONGO_URI = env.mongodb.uri;
