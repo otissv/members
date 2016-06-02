@@ -6,8 +6,9 @@
 
 import createSeed from './seed-helpers.js';
 import mongo from 'mongoskin';
+import Promise from 'bluebird';
 
-
+Promise.promisifyAll(mongo);
 let db;
 
 
@@ -20,15 +21,16 @@ function print (msg) {
 * Drop database collections
 */
 function dropCollections ({ db, drop }) {
-  if (Array.isArray(drop)) {
-    drop.forEach(collection => {
-      db.collection(collection).drop();
-    });
+  return new Promise((resolve, reject) => {
+    if (Array.isArray(drop)) {
+      drop.forEach(collection => {
+        db.collection(collection).drop();
+      });
 
-  } else {
-    console.log('err');
-    db.collection(drop).drop();
-  }
+    } else {
+      db.collection(drop).drop();
+    }
+  });
 };
 
 
@@ -48,7 +50,7 @@ function insertDocuments ({ db, collectionName, data }) {
 /*
 * Reset database collections
 */
-export function reset ({ db, duration = 100, drop, seed, insert }) {
+function reset ({ db, duration = 100, drop, seed, insert }) {
 
   // Drop collections
   if (typeof drop !== 'undefined') {
@@ -83,17 +85,14 @@ export function reset ({ db, duration = 100, drop, seed, insert }) {
   }
 
   setTimeout(() => db.close(), duration);
+
 };
-
-
-export function getDb () {
-  return db;
-}
 
 export function connect (uri) {
   db = mongo.db(uri, {native_parser:true});
   return db;
 };
+
 
 export function close () {
   setTimeout(() => db.close(), 5000);
