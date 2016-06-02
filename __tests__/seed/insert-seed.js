@@ -19,10 +19,14 @@ export const auth = {
 // Static id's
 export const userUpdateId = objectID('574ee7ffd21b7c5321ea697a');
 export const userDeleteId = objectID('574ee46a37a1ae286619a04a');
+
 export const eventFindOneId = objectID('57507033bdeea50164fe139c');
 export const eventUpdateId = objectID('57506d11f0df254f394eabe0');
 export const eventDeleteId = objectID('57506d11f0df254f394eabde');
 
+export const categoryFindOneId = objectID('57509b5f350a10fb44e4c2b5');
+export const categoryUpdateId = objectID('57509b5f350a10fb44e4c2b7');
+export const categoryDeleteId = objectID('57509b6000e2f5b6449b6128');
 
 
 // users seed data
@@ -60,31 +64,53 @@ export const users = [
 ];
 
 
-
 // events seed data
 const eventYear = new Date().getFullYear();
-const eventMonth = new Date().getMonth()
+const eventMonth = new Date().getMonth();
 
 export const events = [
-	{
-		...fakeSeed()['events'],
-		_id: objectID(eventFindOneId),
-		title      : 'Event Number one',
-		start      : new Date(eventYear, eventMonth, 6, 11, 0),
+  {
+    ...fakeSeed()['events'],
+    _id: objectID(eventFindOneId),
+    title      : 'Event Number one',
+    start      : new Date(eventYear, eventMonth, 6, 11, 0),
     end        : new Date(eventYear, eventMonth, 6, 12, 0)
-	},
-	{
-		...fakeSeed()['events'],
-		_id: objectID(eventUpdateId),
-		title      : 'My Event',
-		start      : new Date(eventYear, eventMonth, 10, 13, 15),
+  },
+  {
+    ...fakeSeed()['events'],
+    _id: objectID(eventUpdateId),
+    title      : 'My Event',
+    start      : new Date(eventYear, eventMonth, 10, 13, 15),
     end        : new Date(eventYear, eventMonth, 10, 17, 45)
-	},
-	{
-		...fakeSeed()['events'],
-		_id: objectID(eventDeleteId),
-		title      : 'Another Event',
-		start      : new Date(eventYear, eventMonth, 24, 15, 5),
+  },
+  {
+    ...fakeSeed()['events'],
+    _id: objectID(eventDeleteId),
+    title      : 'Another Event',
+    start      : new Date(eventYear, eventMonth, 24, 15, 5),
     end        : new Date(eventYear, eventMonth, 24, 19, 30)
-	}
+  }
+];
+
+
+// category seed data
+export const categories = [
+  {
+    _id: objectID(categoryFindOneId),
+    color: 'blue',
+    status: ['active'],
+    title: 'Salsa'
+  },
+  {
+    _id: objectID(categoryUpdateId),
+    color: 'lightGreen',
+    status: ['active'],
+    title: 'Kizomba'
+  },
+  {
+    _id: objectID(categoryDeleteId),
+    color: 'grey',
+    status: ['deactivated'],
+    title: 'mambo'
+  }
 ];

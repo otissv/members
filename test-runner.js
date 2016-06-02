@@ -1,5 +1,6 @@
 import glob from 'glob';
 import path from 'path';
+import Promise from 'bluebird';
 
 
 const config = {
@@ -11,9 +12,11 @@ const config = {
   }
 };
 
-const resolveBase = (base, filePath) => {
+
+function resolveBase (base, filePath) {
   return path.resolve(__dirname, `${base}${filePath}`);
 };
+
 
 function runTest (files) {
   files.forEach(file => {
@@ -23,7 +26,17 @@ function runTest (files) {
   });
 }
 
-const requireFiles = (config) => {
+function promisifyAsync (fn) {
+  const request = Promise.promisifyAll(fn);
+
+  return async function asyncTests () {
+    await request.pretest();
+    return;
+  };
+}
+
+
+function requireFiles (config) {
   const ext = config.ext || '';
   const pattern = `${config.folder}/**/*${ext}`;
 
@@ -33,18 +46,21 @@ const requireFiles = (config) => {
     }
 
     console.log();
-    glob('./__tests__/pretests.js', (err, pretests) => {
+    glob('./__tests__/pretests.js', (err, testPresets) => {
       if (err) {
         console.log(err);
       }
-      if (pretests[0] == null) {
+      if (testPresets[0] == null) {
         runTest(files);
 
       } else {
-        require(pretests[0]).pretest();
+        const request = promisifyAsync(require(testPresets[0]));
 
-        const duration = require(pretests[0]).DURATION || 99;
-        setTimeout(() => runTest(files), duration + 1);
+        request().then(function (message) {
+          runTest(files);
+        }).catch(function (err) {
+          console.log('error!', err);
+        });
       }
     });
 

@@ -2,8 +2,9 @@ import mongo from './helpers/mongodb-test-helpers';
 import redis from './helpers/redis-test-helpers';
 import env from '../backend/env/development-env';
 import {
-	events,
-	users
+  users,
+  events,
+  categories
 } from './seed/insert-seed';
 
 
@@ -17,22 +18,26 @@ export function pretest () {
   mongo.reset({
     duration: DURATION,
     db      : mongo.connect(MONGO_URI),
-    drop   : [
-	    'users', 
-	    'events'
+    drop    : [
+      'users',
+      'events',
+      'categories'
     ],
     seed: {
-      users : 3,
-      events: 3
+      users     : 3,
+      events    : 3,
+      categories: 3
     },
     insert:[
       {
         collection: 'users',
-        data: users
-      },
-      {
+        data      : users
+      }, {
         collection: 'events',
-        data: events
+        data      : events
+      }, {
+        collection: 'categories',
+        data      : categories
       }
     ]
   });

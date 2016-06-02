@@ -7,7 +7,6 @@ import { colors } from '../../backend/api/v01/models/category-model-v01';
 import { getDates, randNumber } from '../helpers/seed-helpers';
 
 
-
 function address () {
   return {
     address1: faker.address.streetAddress(),
@@ -21,25 +20,25 @@ function address () {
 };
 
 
-function attendees (count) {
-  let students = [];
+function students (count) {
+  let stu = [];
 
   for (var i = 0; i < count; i++) {
-    students.push({
+    stu.push({
       attendee : objectID(),
       attended: faker.random.boolean()
     });
   }
 
-  return students;
+  return stu;
 }
 
 
 function category () {
   return {
     _id: objectID(),
-    color: colors[randNumber(0, 18)],
-    status: faker.random.boolean(),
+    color: [colors[randNumber(0, 18)]],
+    status: faker.random.boolean() ? 'active' : 'deactivated',
     title: faker.random.words()
   };
 }
@@ -62,7 +61,7 @@ export default function schema () {
     events: {
       allDay     : faker.random.boolean(),
       address    : address(),
-      attendees  : attendees(3),
+      attendees  : students(3),
       category   : category(),
       created    : faker.date.past(),
       description: faker.lorem.sentence(),
@@ -70,6 +69,10 @@ export default function schema () {
       start      : getDates().startDate,
       title      : faker.random.words(),
       updated    : new Date()
+    },
+    categories: {
+      ...category(),
+      students: students(3)
     }
   };
 }
