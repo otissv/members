@@ -9,7 +9,8 @@ const address = new Schema({
   city    : String,
   state   : String,
   country : String,
-  postCode: String
+  postCode: String,
+  rooms   : String
 });
 
 export default address;

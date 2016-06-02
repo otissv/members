@@ -19,7 +19,6 @@ const eventSchema = new Schema({
     required: 'Please enter an end date.'
   },
   invited   : [ userRef() ],
-  room       : String,
   start: {
     type    : Date,
     default : Date.now,
