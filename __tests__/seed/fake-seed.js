@@ -5,11 +5,19 @@ import { generateHash } from '../../backend/helpers/bycrypt-helper';
 import objectID from 'bson-objectid';
 import { colors } from '../../backend/api/v01/models/category-model-v01';
 
-function rand (min, max, interval) {
+function randNumber (min, max, interval) {
   if (typeof interval === 'undefined') interval = 1;
   var r = Math.floor(Math.random() * (max - min + interval) / interval);
   return r * interval + min;
 }
+
+function randomDate (start, end) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+const start = randomDate(new Date(2016, 0, 1), new Date(2016, 11, 31));
+console.log('start', start.getDate() + 5);
+console.log('end', new Date(2016, 11, start.getDate() + 5));
 
 function address () {
   return {
@@ -19,7 +27,7 @@ function address () {
     state   : faker.address.state(),
     country : faker.address.country(),
     postCode: faker.address.zipCode(),
-    room    : `${rand(1, 300)}`
+    room    : `${randNumber(1, 300)}`
   };
 };
 
@@ -41,7 +49,7 @@ function attendees (count) {
 function category () {
   return {
     _id: objectID(),
-    color: colors[rand(0, 18)],
+    color: colors[randNumber(0, 18)],
     status: faker.random.boolean(),
     title: faker.random.words()
   };
