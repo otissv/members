@@ -14,9 +14,10 @@ export function pretest () {
   mongo.reset({
     duration: DURATION,
     db: mongo.connect(MONGO_URI),
-    drop  : ['users'],
+    drop  : ['users', 'events'],
     seed  : {
-      users: 3
+      users : 3,
+      events: 3
     },
     insert:[
       {

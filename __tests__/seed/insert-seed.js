@@ -24,9 +24,12 @@ export const users = [
     password: generateHash('xyz')
   },
   {
-    ...fakeSeed()['users'],
     _id: objectID(auth._id),
+    email: 'a@hotmail.com',
     firstName: 'a',
+    lastLogin: '2016-02-02T00:29:17.889Z',
+    lastName: 'Zeyer',
+    roles: [ 'user' ],
     username: 'a',
     password: generateHash('a')
   },
