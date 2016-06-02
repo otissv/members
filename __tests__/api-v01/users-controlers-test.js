@@ -34,7 +34,7 @@ test('Users controller:', assert => {
           lastLogin: '2016-02-02T00:29:17.889Z',
           lastName: 'Zeyer',
           roles: [ 'user' ],
-          username: 'a' 
+          username: 'a'
         },
         'Finds one user');
     }

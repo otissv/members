@@ -9,22 +9,20 @@ import {
 } from '../seed/insert-seed';
 
 
-console.log()
-
 const COLLECTION = 'events';
 const AUTH = `?token=${auth.token}&_id=${auth._id}`;
 const API_URL = `${env.baseURL}/api/v01/`;
 
 
 test('Events controller:', assert => {
-	fetch({
+  fetch({
     method: 'post',
     url   : `${API_URL}${COLLECTION}/${AUTH}`,
     data: {
-			title      : 'What an event',
-			start      : new Date(2016, 8, 6, 11, 0),
-	    end        : new Date(2016, 8, 6, 12, 0)
-		},
+      title      : 'What an event',
+      start      : new Date(2016, 8, 6, 11, 0),
+      end        : new Date(2016, 8, 6, 12, 0)
+    },
     assert: (response) => {
       assert.deepEquals(response.data.result.title, 'What an event',
         'Create a new event');
