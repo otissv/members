@@ -4,12 +4,17 @@ import mongoose, { Schema } from 'mongoose';
 import { userRef } from './user-model-v01';
 import { categoryRef } from './category-model-v01';
 import address from './address-model-v01.js';
+import { commentRef } from './comments-model-v01';
 
+import mongooseDeepPopulate from 'mongoose-deep-populate';
+
+const deepPopulate = mongooseDeepPopulate(mongoose);
 
 const eventSchema = new Schema({
   allDay     : Boolean,
   address    : address,
   category   : categoryRef(),
+  comments   : [commentRef()],
   created    : Date,
   createdBy  : userRef(),
   description: String,
@@ -17,10 +22,12 @@ const eventSchema = new Schema({
     type    : Date,
     required: 'Please enter an end date.'
   },
-  attendees : [{
-    attendee : userRef(),
+  instructors: [userRef()],
+  invited : [{
+    client : userRef(),
     attended : Boolean
   }],
+  level: String,
   start: {
     type    : Date,
     default : Date.now,
@@ -35,6 +42,18 @@ const eventSchema = new Schema({
     default: Date.now
   },
   updatedBy: userRef()
+});
+
+
+eventSchema.plugin(deepPopulate, {
+  populate: {
+    category: {
+      select: '_id title color'
+    },
+    'invited.client': {
+      select: '_id firstName lastName'
+    }
+  }
 });
 
 

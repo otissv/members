@@ -2,11 +2,11 @@
 
 import mongoose, { Schema} from 'mongoose';
 import { userRef } from './user-model-v01';
-
+import { commentRef } from './comments-model-v01';
 
 export function categoryRef () {
   return {
-    type:  mongoose.Schema.Types.ObjectId,
+    type:  Schema.ObjectId,
     ref: 'Category'
   };
 }
@@ -39,8 +39,9 @@ const categorySchema = new Schema({
     enum: Object.keys(colors).map(i => i),
     default: 'blue'
   },
-  created: Date,
-  status : {
+  comments: [commentRef()],
+  created : Date,
+  status  : {
     type: [{
       type: String,
       enum: [ 'deactivated', 'active' ]

@@ -5,9 +5,15 @@
 'use strict';
 
 import Event from '../models/event-model-v01';
-
+import EventS, { eventSchema } from '../schemas/events-schema-v01';
+import {
+  isCollectionEmpty,
+  isObjectEmpty,
+  cleanObject
+} from '../../../helpers/object-helpers';
 
 const eventClened = (event) => {
+
   return Object.assign({}, {
     allDay     : event.allDay,
     address    : event.address,
@@ -25,46 +31,31 @@ const eventClened = (event) => {
 
 export default {
   create (req, res) {
-    const {
-      allDay,
-      address,
-      attended,
-      category,
-      description,
-      end,
-      invited,
-      room,
-      start,
-      title
-    } = req.body;
-
-    // create a new event
-    const newEvent = new Event({
-      allDay,
-      address,
-      attended,
-      category,
-      description,
-      end,
-      invited,
-      room,
-      start,
-      title
+    const newEvent = cleanObject({
+      allDay     : req.body.allDay,
+      address    : isObjectEmpty(req.body.address) ? undefined : req.body.address,
+      category   : isObjectEmpty(req.body.category) ? undefined : req.body.category,
+      description: req.body.description,
+      end        : req.body.end,
+      invited    : isCollectionEmpty(req.body.invited) ? undefined : req.body.invited,
+      level      : req.body.level,
+      start      : req.body.start,
+      title      : req.body.title
     });
 
-    // save new event
-    newEvent.save(function (err) {
+    EventS.insert(newEvent, (err, evenr) => {
       if (err) {
+        console.log(err.errors);
         return res.status(400).json({
           success: false,
-          message: err.errors.title.message
+          message: 'Event did not save'
         });
       }
 
       return res.json({
         success: true,
         message: 'Events saved',
-        result: eventClened(newEvent)
+        result: eventClened(evenr)
       });
     });
   },
@@ -72,56 +63,82 @@ export default {
 
   findAll (req, res) {
     // check header or url parameters or post parameters for token
-    Event.find({}, (err, event) => {
-      if (err) {
-        return res.status(400).json({
-          message: 'Error retriving event'
-        });
-      }
+    EventS.find()
+      .then(resolve => {
+        resolve.toArray()
+          .then(events => {
+            return res.json({
+              success: true,
+              message: 'Events found',
+              result: events
+            });
+          });
+      });
 
-      if (event != null) {
-        const eventList = event.map(event => eventClened(event));
-
-        return res.json({
-          success: true,
-          message: 'Events found',
-          result: eventList
-        });
-
-      } else {
-        return res.status(404).json({
-          sucess: false,
-          message: 'No event were found'
-        });
-      }
-    });
+    // check header or url parameters or post parameters for token
+    // Event.find({}, (err, event) => {
+    //   if (err) {
+    //     return res.status(400).json({
+    //       message: 'Error retriving event'
+    //     });
+    //   }
+    //
+    //   if (event != null) {
+    //     const eventList = event.map(event => eventClened(event));
+    //
+    //     return res.json({
+    //       success: true,
+    //       message: 'Events found',
+    //       result: eventList
+    //     });
+    //
+    //   } else {
+    //     return res.status(404).json({
+    //       sucess: false,
+    //       message: 'No event were found'
+    //     });
+    //   }
+    // });
   },
 
   find (req, res) {
     const eventId = req.params.event;
 
-    Event.findById(eventId, (err, event) => {
-      if (err) {
+
+    EventS.findById(eventId)
+      // .populate('invited.client category')
+      // .then(event => {
+      //   console.log(event[0]);
+      //   return res.json({
+      //     success: true,
+      //     message: 'Events found',
+      //     result: event[0]
+      //   });
+      // });
+
+    Event.findById(eventId)
+      .deepPopulate('category, invited.client')
+      .then(event => {
+        if (event != null) {
+          return res.json({
+            success: true,
+            message: 'Event found',
+            result: event
+          });
+
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: 'Event cannot be found'
+          });
+        }
+      })
+      .catch(() => {
         return res.status(400).json({
           success: false,
           message: 'Error retriving event'
         });
-      }
-
-      if (event != null) {
-        return res.json({
-          success: true,
-          message: 'Event found',
-          result: eventClened(event)
-        });
-
-      } else {
-        return res.status(404).json({
-          success: false,
-          message: 'Event cannot be found'
-        });
-      }
-    });
+      });
   },
 
 
@@ -133,7 +150,7 @@ export default {
       if (err) {
         return res.status(400).json({
           success: false,
-          message: err
+          message: 'Error updating event'
         });
       }
 

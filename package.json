@@ -5,8 +5,8 @@
   "scripts": {
     "start": "nodemon --exec npm run babel-node -- ./backend/server.js localhost 3000",
     "babel-node": "babel-node",
-    "lint": "eslint --quiet './' && echo 'Completed:' && date || true && echo 'Completed:'",
-    "lint:watch": "watch 'npm run lint' ./",
+    "lint": "eslint --quiet './' && echo 'Completed:' && date || true && echo 'Completed:' && date",
+    "lint:watch": "watch 'npm run lint' ./backend",
     "tape": "babel-node test-runner.js | tap-min || true",
     "tape:spec": "babel-node test-runner.js | tap-difflet || true",
     "test": "npm run tape",
@@ -40,8 +40,10 @@
     "express-logger": "0.0.3",
     "express-session": "~1.13.0",
     "helmet": "~1.3.0",
+    "is-schema-valid": "^0.1.4",
     "jsonwebtoken": "~5.7.0",
     "method-override": "~2.3.5",
+    "mongoose-deep-populate": "^3.0.0",
     "nodemon": "~1.9.1",
     "redis": "~2.6.0-1"
   },

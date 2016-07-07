@@ -1,10 +1,10 @@
 /*
-* Course controller
+* Category controller
 */
 
 'use strict';
 
-import Course, { colors } from '../models/category-model-v01';
+import Category, { colors } from '../models/category-model-v01';
 
 
 const categoryClened = (category) => {
@@ -36,11 +36,11 @@ export default {
     } = req.body;
 
     // check to see if category already exists
-    Course.findOne({ title }, (err, category) => {
+    Category.findOne({ title }, (err, category) => {
       if (err) {
         return res.json({
           success: false,
-          message: err
+          message: 'Error finding category'
         });
       }
 
@@ -48,12 +48,12 @@ export default {
         // Exit method if category already exists
         return res.status(400).send({
           success: false,
-          message: 'Course already exists'
+          message: 'Category already exists'
         });
 
       } else {
         // create a new category
-        const newCourse = new Course({
+        const newCategory = new Category({
           color,
           title,
           status,
@@ -61,18 +61,18 @@ export default {
         });
 
         // save new category
-        newCourse.save(function (err) {
+        newCategory.save(function (err) {
           if (err) {
             return res.json({
               success: false,
-              message: err.errors.title.message
+              message:'Error creating Category'
             });
           }
 
           return res.json({
             success: true,
             message: 'Categories saved',
-            result: categoryClened(newCourse)
+            result: categoryClened(newCategory)
           });
         });
       }
@@ -82,10 +82,10 @@ export default {
 
   findAll (req, res) {
     // check header or url parameters or post parameters for token
-    Course.find({}, (err, category) => {
+    Category.find({}, (err, category) => {
       if (err) {
         return res.status(400).json({
-          message: 'Error retriving category'
+          message: 'Error retriving categories'
         });
       }
 
@@ -110,7 +110,7 @@ export default {
   find (req, res) {
     const categoryId = req.params.category;
 
-    Course.findById(categoryId, (err, category) => {
+    Category.findById(categoryId, (err, category) => {
       if (err) {
         return res.status(400).json({
           success: false,
@@ -121,14 +121,14 @@ export default {
       if (category != null) {
         return res.json({
           success: true,
-          message: 'Course found',
+          message: 'Category found',
           result: categoryClened(category)
         });
 
       } else {
         return res.status(404).json({
           success: false,
-          message: 'Course cannot be found'
+          message: 'Category cannot be found'
         });
       }
     });
@@ -137,24 +137,24 @@ export default {
   update (req, res) {
     const data = req.body;
     const _id = req.params.category;
-console.log(data);
-    Course.update({ _id: _id }, data, (err, result) => {
+
+    Category.update({ _id: _id }, data, (err, result) => {
       if (err) {
         return res.status(400).json({
           success: false,
-          message: err
+          message: 'Error updating category'
         });
       }
 
       if (result.nModified === 1) {
         return res.json({
           success: true,
-          message: 'Course updated'
+          message: 'Category updated'
         });
       } else {
         return res.status(404).json({
           success: false,
-          message: 'Course was not updatied'
+          message: 'Category was not updatied'
         });
       }
     });
@@ -165,7 +165,7 @@ console.log(data);
     var category = req.params.category;
 
     console.log(req.params.category);
-    Course.remove({ _id: category }, (err, result) => {
+    Category.remove({ _id: category }, (err, result) => {
       if (err) {
         return res.status(400).json({
           success: false,
@@ -176,12 +176,12 @@ console.log(data);
       if (result.result.n === 1) {
         return res.json({
           success: true,
-          message: 'Course removed'
+          message: 'Category removed'
         });
       } else {
         return res.status(404).json({
           success: false,
-          message: 'Course was not removed'
+          message: 'Category was not removed'
         });
       }
 

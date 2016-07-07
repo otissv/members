@@ -7,7 +7,7 @@ import { colors } from '../../backend/api/v01/models/category-model-v01';
 import { getDates, randNumber } from '../helpers/seed-helpers';
 
 
-function address () {
+export function address () {
   return {
     address1: faker.address.streetAddress(),
     address2: faker.address.secondaryAddress(),
@@ -20,28 +20,23 @@ function address () {
 };
 
 
-function students (count) {
-  let stu = [];
-
-  for (var i = 0; i < count; i++) {
-    stu.push({
-      attendee : objectID(),
-      attended: faker.random.boolean()
+export function clinet (ids) {
+  if (Array.isArray(ids)) {
+    return ids.map(id => {
+      return {
+        client : objectID(id),
+        attended: faker.random.boolean()
+      };
     });
+  } else {
+    return {
+      client : objectID(),
+      attended: faker.random.boolean()
+    };
   }
-
-  return stu;
 }
 
-
-function category () {
-  return {
-    _id: objectID(),
-    color: [colors[randNumber(0, 18)]],
-    status: faker.random.boolean() ? 'active' : 'deactivated',
-    title: faker.random.words()
-  };
-}
+const categories = ['salsa', 'kizomba', 'Bachata'];
 
 
 export default function schema () {
@@ -54,25 +49,26 @@ export default function schema () {
       lastLogin : faker.date.past(),
       updated   : new Date(),
       password  : generateHash(faker.internet.password()),
-      roles     : ['user'],
+      roles     : ['receptionist'],
       telephone : faker.phone.phoneNumber(),
       username  : faker.internet.userName()
     },
     events: {
       allDay     : faker.random.boolean(),
       address    : address(),
-      attendees  : students(3),
-      category   : category(),
+      invited    : clinet(3),
+      category   : objectID('57509b5f350a10fb44e4c2b5'),
       created    : faker.date.past(),
       description: faker.lorem.sentence(),
-      end        : faker.date.past(),
+      end        : getDates().endDate,
       start      : getDates().startDate,
       title      : faker.random.words(),
       updated    : new Date()
     },
     categories: {
-      ...category(),
-      students: students(3)
+      color: [Object.keys(colors).map(k => k)[randNumber(0, 18)]],
+      status: faker.random.boolean() ? 'active' : 'deactivated',
+      title: categories[randNumber(1, 3)]
     }
   };
 }

@@ -4,7 +4,7 @@
 
 'use strict';
 
-import fakeSeed from './fake-seed';
+import fakeSeed, { clinet, category } from './fake-seed';
 import { generateHash } from '../../backend/helpers/bycrypt-helper';
 import objectID from 'bson-objectid';
 
@@ -28,6 +28,12 @@ export const categoryFindOneId = objectID('57509b5f350a10fb44e4c2b5');
 export const categoryUpdateId = objectID('57509b5f350a10fb44e4c2b7');
 export const categoryDeleteId = objectID('57509b6000e2f5b6449b6128');
 
+const invitedUsers = [
+  '57509b5f350a10fb44e4c2b5',
+  '57509b5f350a10fb44e4c2b7',
+  '5754436a056586a41a8efe88'
+];
+
 
 // users seed data
 export const users = [
@@ -43,7 +49,7 @@ export const users = [
     firstName: 'a',
     lastLogin: '2016-02-02T00:29:17.889Z',
     lastName: 'Zeyer',
-    roles: [ 'user' ],
+    roles: [ 'receptionist' ],
     username: 'a',
     password: generateHash('a')
   },
@@ -60,9 +66,50 @@ export const users = [
     firstName: 'bob',
     username: 'builder',
     password: generateHash('xyz')
+  },
+  {
+    ...fakeSeed()['users'],
+    _id: objectID(invitedUsers[0]),
+    firstName: 'student 1',
+    username: 'student 1',
+    password: generateHash('xyz')
+  }, {
+    ...fakeSeed()['users'],
+    _id: objectID(invitedUsers[1]),
+    firstName: 'student 2',
+    username: 'student 3',
+    password: generateHash('xyz')
+  }, {
+    ...fakeSeed()['users'],
+    _id: objectID(invitedUsers[2]),
+    firstName: 'student 3',
+    username: 'student 3',
+    password: generateHash('xyz')
   }
 ];
 
+
+// category seed data
+export const categories = [
+  {
+    _id: objectID(categoryFindOneId),
+    color: ['blue'],
+    status: ['active'],
+    title: 'cat1'
+  },
+  {
+    _id: objectID(categoryUpdateId),
+    color: ['lightGreen'],
+    status: ['active'],
+    title: 'cat2'
+  },
+  {
+    _id: objectID(categoryDeleteId),
+    color: ['grey'],
+    status: ['deactivated'],
+    title: 'cat3'
+  }
+];
 
 // events seed data
 const eventYear = new Date().getFullYear();
@@ -73,6 +120,8 @@ export const events = [
     ...fakeSeed()['events'],
     _id: objectID(eventFindOneId),
     title      : 'Event Number one',
+    invited    : clinet(invitedUsers),
+    category   : categoryFindOneId,
     start      : new Date(eventYear, eventMonth, 6, 11, 0),
     end        : new Date(eventYear, eventMonth, 6, 12, 0)
   },
@@ -80,6 +129,8 @@ export const events = [
     ...fakeSeed()['events'],
     _id: objectID(eventUpdateId),
     title      : 'My Event',
+    invited    : clinet(invitedUsers),
+    category   : categoryUpdateId,
     start      : new Date(eventYear, eventMonth, 10, 13, 15),
     end        : new Date(eventYear, eventMonth, 10, 17, 45)
   },
@@ -87,30 +138,9 @@ export const events = [
     ...fakeSeed()['events'],
     _id: objectID(eventDeleteId),
     title      : 'Another Event',
+    invited    : clinet(3, invitedUsers),
+    category   : categoryDeleteId,
     start      : new Date(eventYear, eventMonth, 24, 15, 5),
     end        : new Date(eventYear, eventMonth, 24, 19, 30)
-  }
-];
-
-
-// category seed data
-export const categories = [
-  {
-    _id: objectID(categoryFindOneId),
-    color: 'blue',
-    status: ['active'],
-    title: 'Salsa'
-  },
-  {
-    _id: objectID(categoryUpdateId),
-    color: 'lightGreen',
-    status: ['active'],
-    title: 'Kizomba'
-  },
-  {
-    _id: objectID(categoryDeleteId),
-    color: 'grey',
-    status: ['deactivated'],
-    title: 'mambo'
   }
 ];

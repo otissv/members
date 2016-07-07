@@ -6,7 +6,7 @@
 
 import mongoose, { Schema } from 'mongoose';
 import address from './address-model-v01.js';
-
+import { commentRef } from './comments-model-v01';
 
 export function userRef () {
   return {
@@ -20,6 +20,7 @@ const userSchema = new Schema({
   address: address,
   created   : { type: Date },
   createdBy : String,
+  comments  : [commentRef()],
   DateOfBirth: { type: Date },
   email: {
     type: String
@@ -37,9 +38,15 @@ const userSchema = new Schema({
   roles: {
     type: [{
       type: String,
-      enum: ['user', 'admin']
+      enum: [
+        'admin',
+        'manager',
+        'client',
+        'instructor',
+        'receptionist'
+      ]
     }],
-    default: 'user'
+    default: 'receptionist'
   },
   telephone: Number,
   updated : { type: Date, default: Date.now },

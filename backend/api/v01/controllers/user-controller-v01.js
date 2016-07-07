@@ -28,7 +28,7 @@ export default {
     User.find({}, (err, user) => {
       if (err) {
         return res.status(400).json({
-          message: 'Error retriving user'
+          message: 'Error retriving users'
         });
       }
 

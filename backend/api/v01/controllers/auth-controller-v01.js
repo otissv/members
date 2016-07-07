@@ -92,7 +92,11 @@ export default {
 
         } else {
           // If everything is good, save to request for use in other routes
-          req.decoded = decoded;
+          req.auth = {
+            roles: decoded._doc.roles,
+            _id: decoded._doc._id
+          };
+          
           next();
         }
       });
@@ -121,7 +125,7 @@ export default {
       if (err) {
         return res.json({
           success: false,
-          message: err
+          message: 'Error finding user'
         });
       }
 

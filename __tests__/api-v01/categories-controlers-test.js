@@ -44,7 +44,7 @@ test('categories controller:', assert => {
     method: 'get',
     url   : `${API_URL}${COLLECTION}/${categoryFindOneId}${AUTH}`,
     assert: (response) => {
-      assert.deepEquals(response.data.result.title, 'Salsa',
+      assert.deepEquals(response.data.result.title, 'cat1',
         'Finds one category');
     }
   });
